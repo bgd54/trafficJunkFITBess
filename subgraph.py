@@ -7,7 +7,7 @@ from reader import World, Street, Intersection, read_file
 
 def make_graph(world: World) -> List[Intersection]:
     nodes: List[Intersection] = [
-        Intersection(in_streets=[], out_streets=[])
+        Intersection(id=i, in_street_ratios=[], in_streets=[], out_streets=[])
         for i in range(world.num_intersections)
     ]
 
@@ -28,6 +28,9 @@ def has_isolated(nodes: List[Intersection]) -> bool:
 
     while not Q.empty():
         next_node = Q.get()
+        if next_node.id in visited_intersections:
+            continue
+
         visited_intersections.add(next_node.id)
 
         for street in next_node.out_streets:
@@ -36,9 +39,10 @@ def has_isolated(nodes: List[Intersection]) -> bool:
     return len(visited_intersections) < len(nodes)
 
 if __name__ == '__main__':
-    world = read_file('data/a.txt')
-    nodes = make_graph(world)
-    print(has_isolated(nodes))
+    for name in ['a', 'b', 'c', 'd', 'e', 'f']:
+        world = read_file('data/{}.txt'.format(name))
+        nodes = make_graph(world)
+        print(name, has_isolated(nodes))
 
     # for name in ['a', 'b', 'c', 'd', 'e', 'f']:
     #     world = read_file('data/{}.txt'.format(name))
