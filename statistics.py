@@ -4,13 +4,13 @@ import numpy as np
 def street_usage(cars, streets):
     for car in cars:
         for street in car.streets:
-            streets[street].number_of_cars_uses_it += 1
+            streets[street.name].number_of_cars_uses_it += 1
 
 
 def intersection_loader(intersections, streets):
     for street in streets.values():
-        intersections[street.end].in_streets += [street]
-        intersections[street.begin].out_streets += [street]
+        intersections[street.end].in_streets.append(street)
+        intersections[street.begin].out_streets.append(street)
 
 
 def ratio_of_streets(intersections):
