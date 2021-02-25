@@ -22,6 +22,7 @@ class World(NamedTuple):
     bonus_points: int  # given to every car thet reaches destination
     streets: Dict[str, Street]
     cars: List[Car]
+    intersections: List[Intersection]
 
 def read_file(fname: str) -> World:
     with open(fname, 'r') as f:
@@ -29,16 +30,17 @@ def read_file(fname: str) -> World:
         streets: Dict[str, Street] = dict()
         for _ in range(S):
             B, E, name, L = f.readline().strip().split()
-            B = int(B)
-            E = int(E)
-            L = int(L)
+            B = int(B)  # type: ignore
+            E = int(E)  # type: ignore
+            L = int(L)  # type: ignore
             assert name not in streets
-            streets[name] = Street(B, E, name, L, 0)
+            streets[name] = Street(B, E, name, L, 0)  # type: ignore
         cars = []
         for _ in range(V):
             s = f.readline().strip().split()[1:]
-            cars.append(Car(s))
-        return World(D, I, F, streets, cars)
+            cars.append(Car([streets[street_name] for street_name in s]))
+        intersections = [Intersection([], []) for _ in range(I)]
+        return World(D, I, F, streets, cars, intersections)
 
 if __name__ == "__main__":
     fire.Fire({'read': read_file})
