@@ -7,6 +7,7 @@ class Street(NamedTuple):
     end: int  # intersection
     name: str
     length: int  # duration in timesteps
+    number_of_cars_uses_it: int
 
 class Car(NamedTuple):
     streets: List[Street]
