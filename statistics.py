@@ -20,7 +20,6 @@ def filter_streets(intersection):
 
 def ratio_of_streets(intersections):
     for intersection in intersections:
-        filter_streets(intersection)
         summ = 0
         for street in intersection.in_streets:
             summ += street.number_of_cars_uses_it
@@ -29,6 +28,7 @@ def ratio_of_streets(intersections):
             for street in intersection.in_streets:
                 intersection.in_street_ratios.append(0)
         else:
+            filter_streets(intersection)
             for street in intersection.in_streets:
                 intersection.in_street_ratios.append(
                     street.number_of_cars_uses_it / summ)
