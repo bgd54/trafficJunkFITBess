@@ -12,6 +12,10 @@ class Street(NamedTuple):
 class Car(NamedTuple):
     streets: List[Street]
 
+class Intersection(NamedTuple):
+    in_streets: List[Street]
+    out_streets: List[Street]
+
 class World(NamedTuple):
     duration: int  # duration of simulation
     num_intersections: int
