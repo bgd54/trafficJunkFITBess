@@ -1,9 +1,12 @@
 import numpy as np
 
+CAR_STREET_DISCOUNT_FACTOR = 1.00
+
 def street_usage(cars, streets):
     for car in cars:
-        for street in car.streets:
-            streets[street.name].number_of_cars_uses_it += 1
+        for i, street in enumerate(car.streets):
+            streets[street.name].number_of_cars_uses_it += (
+                CAR_STREET_DISCOUNT_FACTOR**i)
 
 def intersection_loader(intersections, streets):
     for street in streets.values():
