@@ -1,4 +1,3 @@
-import reader
 import numpy as np
 
 

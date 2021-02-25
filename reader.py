@@ -17,6 +17,7 @@ class Car(NamedTuple):
 
 
 class Intersection(NamedTuple):
+    id: int
     in_street_ratios: List[float]
     in_streets: List[Street]
     out_streets: List[Street]
@@ -46,7 +47,7 @@ def read_file(fname: str) -> World:
         for _ in range(V):
             s = f.readline().strip().split()[1:]
             cars.append(Car([streets[street_name] for street_name in s]))
-        intersections = [Intersection([], [], []) for _ in range(I)]
+        intersections = [Intersection(i, [], [], []) for i in range(I)]
         intersection_loader(intersections, streets)
         street_usage(cars, streets)
         ratio_of_streets(intersections)
