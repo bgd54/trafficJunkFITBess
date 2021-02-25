@@ -29,7 +29,7 @@ def read_file(fname: str) -> World:
             E = int(E)
             L = int(L)
             assert name not in streets
-            streets[name] = Street(B, E, name, L)
+            streets[name] = Street(B, E, name, L, 0)
         cars = []
         for _ in range(V):
             s = f.readline().strip().split()[1:]
