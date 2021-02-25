@@ -1,6 +1,6 @@
 import numpy as np
 
-CAR_STREET_DISCOUNT_FACTOR = 1.00
+CAR_STREET_DISCOUNT_FACTOR = 1
 
 def street_usage(cars, streets):
     for car in cars:
