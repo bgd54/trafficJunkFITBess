@@ -1,6 +1,5 @@
 import numpy as np
-import fire
-from statistics import street_usage, intersection_loader, ratio_of_streets, route_length_stats
+from statistics import street_usage, intersection_loader, ratio_of_streets
 from typing import NamedTuple, List, Dict
 from dataclasses import dataclass
 
@@ -70,25 +69,3 @@ def print_output(schedule: List[Schedule]) -> None:
         for i in range(len(intersect.streets)):
             print("{} {}".format(intersect.streets[i].name,
                                  intersect.times[i]))
-
-
-def main(fname: str) -> None:
-    world = read_file(fname)
-    sched = []
-    for intersection in world.intersections:
-        streets = []
-        times = []
-        period = len(intersection.in_streets)
-        for (s, r) in zip(intersection.in_streets,
-                          intersection.in_street_ratios):
-            streets.append(s)
-            times.append(max(1, int(np.round(period * r))))
-        sched.append(Schedule(intersection.id, streets, times))
-    print_output(sched)
-
-def stat(fname: str) -> None:
-    world = read_file(fname)
-    print(route_length_stats(world))
-
-if __name__ == "__main__":
-    fire.Fire({'read': read_file, 'main': main, 'stat': stat})

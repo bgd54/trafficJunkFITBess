@@ -32,13 +32,13 @@ def ratio_of_streets(intersections):
 def route_length_stats(world):
     lengths = np.array([sum(s.length for s in car.streets) for car in world.cars])
     return {
-        'min_route_len': lengths.min(),
-        'max_route_len': lengths.max(),
-        'avg_route_len': lengths.mean(),
-        'std_route_len': lengths.std(),
-        'median_route_len': np.median(lengths),
-        '10th_pct_route_len': np.quantile(lengths, 0.1),
-        '90th_pct_route_len': np.quantile(lengths, 0.9),
+        'min_route_len': float(lengths.min()),
+        'max_route_len': float(lengths.max()),
+        'avg_route_len': float(lengths.mean()),
+        'std_route_len': float(lengths.std()),
+        'median_route_len': float(np.median(lengths)),
+        '10th_pct_route_len': float(np.quantile(lengths, 0.1)),
+        '90th_pct_route_len': float(np.quantile(lengths, 0.9)),
     }
 
 
