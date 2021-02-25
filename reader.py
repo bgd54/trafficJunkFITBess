@@ -1,8 +1,9 @@
 import numpy as np
 import fire
-from statistics import street_usage, intersection_loader, ratio_of_streets
+from statistics import street_usage, intersection_loader, ratio_of_streets, route_length_stats
 from typing import NamedTuple, List, Dict
 from dataclasses import dataclass
+
 
 @dataclass
 class Street:
@@ -12,14 +13,17 @@ class Street:
     length: int  # duration in timesteps
     number_of_cars_uses_it: int
 
+
 class Car(NamedTuple):
     streets: List[Street]
+
 
 class Intersection(NamedTuple):
     id: int
     in_street_ratios: List[float]
     in_streets: List[Street]
     out_streets: List[Street]
+
 
 class World(NamedTuple):
     duration: int  # duration of simulation
@@ -28,6 +32,7 @@ class World(NamedTuple):
     streets: Dict[str, Street]
     cars: List[Car]
     intersections: List[Intersection]
+
 
 def read_file(fname: str) -> World:
     with open(fname, 'r') as f:
@@ -50,10 +55,12 @@ def read_file(fname: str) -> World:
         ratio_of_streets(intersections)
         return World(D, I, F, streets, cars, intersections)
 
+
 class Schedule(NamedTuple):
     idx: int  # intersect id
     streets: List[Street]
     times: List[int]  # timing lengths
+
 
 def print_output(schedule: List[Schedule]) -> None:
     print(len(schedule))
@@ -61,7 +68,9 @@ def print_output(schedule: List[Schedule]) -> None:
         print(intersect.idx)
         print(len(intersect.streets))
         for i in range(len(intersect.streets)):
-            print("{} {}".format(intersect.streets[i].name, intersect.times[i]))
+            print("{} {}".format(intersect.streets[i].name,
+                                 intersect.times[i]))
+
 
 def main(fname: str) -> None:
     world = read_file(fname)
@@ -77,5 +86,9 @@ def main(fname: str) -> None:
         sched.append(Schedule(intersection.id, streets, times))
     print_output(sched)
 
+def stat(fname: str) -> None:
+    world = read_file(fname)
+    print(route_length_stats(world))
+
 if __name__ == "__main__":
-    fire.Fire({'read': read_file, 'main': main})
+    fire.Fire({'read': read_file, 'main': main, 'stat': stat})
