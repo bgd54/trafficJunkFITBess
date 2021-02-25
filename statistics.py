@@ -13,8 +13,14 @@ def intersection_loader(intersections, streets):
         intersections[street.end].in_streets.append(street)
         intersections[street.begin].out_streets.append(street)
 
+def filter_streets(intersection):
+    intersection.in_streets = list(
+        filter(lambda s: s.number_of_cars_uses_it != 0,
+               intersection.in_streets))
+
 def ratio_of_streets(intersections):
     for intersection in intersections:
+        filter_streets(intersection)
         summ = 0
         for street in intersection.in_streets:
             summ += street.number_of_cars_uses_it

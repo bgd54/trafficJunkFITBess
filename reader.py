@@ -16,8 +16,8 @@ class Street:
 class Car(NamedTuple):
     streets: List[Street]
 
-
-class Intersection(NamedTuple):
+@dataclass
+class Intersection:
     id: int
     in_street_ratios: List[float]
     in_streets: List[Street]
