@@ -8,7 +8,7 @@ def street_usage(cars, streets):
 
 
 def intersection_loader(intersections, streets):
-    for street in streets:
+    for street in streets.values():
         intersections[street.end].in_streets += [street]
         intersections[street.begin].out_streets += [street]
 
