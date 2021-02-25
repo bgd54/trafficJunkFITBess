@@ -16,6 +16,7 @@ class Street:
 class Car(NamedTuple):
     streets: List[Street]
 
+
 @dataclass
 class Intersection:
     id: int
@@ -66,6 +67,6 @@ def print_output(schedule: List[Schedule]) -> None:
     for intersect in schedule:
         print(intersect.idx)
         print(len(intersect.streets))
-        for i in range(len(intersect.streets)):
+        for i in np.random.permutation(range(len(intersect.streets))):
             print("{} {}".format(intersect.streets[i].name,
                                  intersect.times[i]))
