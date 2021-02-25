@@ -4,7 +4,6 @@ from statistics import street_usage, intersection_loader, ratio_of_streets
 from typing import NamedTuple, List, Dict
 from dataclasses import dataclass
 
-
 @dataclass
 class Street:
     begin: int  # intersection
@@ -13,17 +12,14 @@ class Street:
     length: int  # duration in timesteps
     number_of_cars_uses_it: int
 
-
 class Car(NamedTuple):
     streets: List[Street]
-
 
 class Intersection(NamedTuple):
     id: int
     in_street_ratios: List[float]
     in_streets: List[Street]
     out_streets: List[Street]
-
 
 class World(NamedTuple):
     duration: int  # duration of simulation
@@ -32,7 +28,6 @@ class World(NamedTuple):
     streets: Dict[str, Street]
     cars: List[Car]
     intersections: List[Intersection]
-
 
 def read_file(fname: str) -> World:
     with open(fname, 'r') as f:
@@ -55,12 +50,10 @@ def read_file(fname: str) -> World:
         ratio_of_streets(intersections)
         return World(D, I, F, streets, cars, intersections)
 
-
 class Schedule(NamedTuple):
     idx: int  # intersect id
     streets: List[Street]
     times: List[int]  # timing lengths
-
 
 def print_output(schedule: List[Schedule]) -> None:
     print(len(schedule))
@@ -68,23 +61,21 @@ def print_output(schedule: List[Schedule]) -> None:
         print(intersect.idx)
         print(len(intersect.streets))
         for i in range(len(intersect.streets)):
-            print("{} {}".format(intersect.streets[i].name,
-                                 intersect.times[i]))
-
+            print("{} {}".format(intersect.streets[i].name, intersect.times[i]))
 
 def main(fname: str) -> None:
     world = read_file(fname)
     sched = []
-    for i in range(world.num_intersections):
+    for intersection in world.intersections:
         streets = []
         times = []
-        for s in world.streets.values():
-            if s.end == i:
-                streets.append(s)
-                times.append(2)
-        sched.append(Schedule(i, streets, times))
+        period = len(intersection.in_streets)
+        for (s, r) in zip(intersection.in_streets,
+                          intersection.in_street_ratios):
+            streets.append(s)
+            times.append(max(1, int(np.round(period * r))))
+        sched.append(Schedule(intersection.id, streets, times))
     print_output(sched)
-
 
 if __name__ == "__main__":
     fire.Fire({'read': read_file, 'main': main})
