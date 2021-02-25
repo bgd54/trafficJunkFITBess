@@ -2,21 +2,26 @@ import numpy as np
 
 CAR_STREET_DISCOUNT_FACTOR = 1
 
+
 def street_usage(cars, streets):
     for car in cars:
         for i, street in enumerate(car.streets):
             streets[street.name].number_of_cars_uses_it += (
                 CAR_STREET_DISCOUNT_FACTOR**i)
+            street.sum_idx += i
+
 
 def intersection_loader(intersections, streets):
     for street in streets.values():
         intersections[street.end].in_streets.append(street)
         intersections[street.begin].out_streets.append(street)
 
+
 def filter_streets(intersection):
     intersection.in_streets = list(
         filter(lambda s: s.number_of_cars_uses_it != 0,
                intersection.in_streets))
+
 
 def ratio_of_streets(intersections):
     for intersection in intersections:
@@ -33,6 +38,7 @@ def ratio_of_streets(intersections):
                 intersection.in_street_ratios.append(
                     street.number_of_cars_uses_it / summ)
 
+
 def route_length_stats(world):
     lengths = np.array(
         [sum(s.length for s in car.streets) for car in world.cars])
@@ -45,6 +51,7 @@ def route_length_stats(world):
         '10th_pct_route_len': float(np.quantile(lengths, 0.1)),
         '90th_pct_route_len': float(np.quantile(lengths, 0.9)),
     }
+
 
 def ratio_distributions_of_intersections(intersections):
     for intersection in intersections:

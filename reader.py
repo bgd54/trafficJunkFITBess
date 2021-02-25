@@ -11,6 +11,7 @@ class Street:
     name: str
     length: int  # duration in timesteps
     number_of_cars_uses_it: int
+    sum_idx: int
 
 
 class Car(NamedTuple):
@@ -44,7 +45,7 @@ def read_file(fname: str) -> World:
             E = int(E)  # type: ignore
             L = int(L)  # type: ignore
             assert name not in streets
-            streets[name] = Street(B, E, name, L, 0)  # type: ignore
+            streets[name] = Street(B, E, name, L, 0, 0)  # type: ignore
         cars = []
         for _ in range(V):
             s = f.readline().strip().split()[1:]
@@ -67,6 +68,7 @@ def print_output(schedule: List[Schedule]) -> None:
     for intersect in schedule:
         print(intersect.idx)
         print(len(intersect.streets))
-        for i in np.random.permutation(range(len(intersect.streets))):
-            print("{} {}".format(intersect.streets[i].name,
-                                 intersect.times[i]))
+        asd = sorted(zip(intersect.streets, intersect.times),
+                     key=lambda x: x[0].sum_idx)
+        for a, b in asd:
+            print("{} {}".format(a.name, b))
