@@ -2,9 +2,11 @@ import numpy as np
 import fire
 from statistics import street_usage,intersection_loader,ratio_of_streets
 from typing import NamedTuple, List, Dict
+from dataclasses import dataclass
 
 
-class Street(NamedTuple):
+@dataclass
+class Street:
     begin: int  # intersection
     end: int  # intersection
     name: str
